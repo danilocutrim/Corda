@@ -152,7 +152,7 @@ operator fun KeyPair.component2(): PublicKey = this.public
 
 /** A simple wrapper that will make it easier to swap out the signature algorithm we use in future. */
 @DeleteForDJVM
-fun generateKeyPair(): KeyPair = Crypto.generateKeyPair()
+fun generateKeyPair(): KeyPair = Crypto.generateKeyPair(Crypto.ECDSA_SECP256R1_SHA256)
 
 /**
  * Returns a key pair derived from the given private key entropy. This is useful for unit tests and other cases where
