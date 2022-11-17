@@ -157,7 +157,7 @@ fun AttachmentStorage.internalFindTrustedAttachmentForClass(className: String): 
     return null
 }
 
-fun getSerliazerClassVersionRange(): IntRange {
+fun getSerializerClassVersionRange(): IntRange {
     val isAtLeastJava11 = JavaVersion.isVersionAtLeast(JavaVersion.Java_11)
     val rangeEnd = if (isAtLeastJava11 && !isDjvmEnabled()) {
         JDK11_CLASS_FILE_FORMAT_MAJOR_VERSION

@@ -16,7 +16,7 @@ import net.corda.core.internal.VisibleForTesting
 import net.corda.core.internal.cordapp.targetPlatformVersion
 import net.corda.core.internal.createInstancesOfClassesImplementing
 import net.corda.core.internal.createSimpleCache
-import net.corda.core.internal.getSerliazerClassVersionRange
+import net.corda.core.internal.getSerializerClassVersionRange
 import net.corda.core.internal.toSynchronised
 import net.corda.core.node.NetworkParameters
 import net.corda.core.serialization.AMQP_ENVELOPE_CACHE_INITIAL_CAPACITY
@@ -359,7 +359,7 @@ object AttachmentsClassLoaderBuilder {
             val transactionClassLoader = AttachmentsClassLoader(attachments, key.params, txId, isAttachmentTrusted, parent)
             val serializers = try {
                 createInstancesOfClassesImplementing(transactionClassLoader, SerializationCustomSerializer::class.java,
-                        getSerliazerClassVersionRange())
+                        getSerializerClassVersionRange())
                 }
                 catch(ex: UnsupportedClassVersionError) {
                     throw TransactionVerificationException.UnsupportedClassVersionError(txId, ex.message!!, ex)
