@@ -9,8 +9,6 @@ import net.corda.core.contracts.TransactionVerificationException
 import net.corda.core.contracts.TransactionVerificationException.OverlappingAttachmentsException
 import net.corda.core.contracts.TransactionVerificationException.PackageOwnershipException
 import net.corda.core.crypto.SecureHash
-import net.corda.core.internal.JDK11_CLASS_FILE_FORMAT_MAJOR_VERSION
-import net.corda.core.internal.JDK1_2_CLASS_FILE_FORMAT_MAJOR_VERSION
 import net.corda.core.internal.JarSignatureCollector
 import net.corda.core.internal.NamedCacheFactory
 import net.corda.core.internal.PlatformVersionSwitches
@@ -18,6 +16,7 @@ import net.corda.core.internal.VisibleForTesting
 import net.corda.core.internal.cordapp.targetPlatformVersion
 import net.corda.core.internal.createInstancesOfClassesImplementing
 import net.corda.core.internal.createSimpleCache
+import net.corda.core.internal.getSerliazerClassVersionRange
 import net.corda.core.internal.toSynchronised
 import net.corda.core.node.NetworkParameters
 import net.corda.core.serialization.AMQP_ENVELOPE_CACHE_INITIAL_CAPACITY
@@ -360,7 +359,7 @@ object AttachmentsClassLoaderBuilder {
             val transactionClassLoader = AttachmentsClassLoader(attachments, key.params, txId, isAttachmentTrusted, parent)
             val serializers = try {
                 createInstancesOfClassesImplementing(transactionClassLoader, SerializationCustomSerializer::class.java,
-                        JDK1_2_CLASS_FILE_FORMAT_MAJOR_VERSION..JDK11_CLASS_FILE_FORMAT_MAJOR_VERSION)
+                        getSerliazerClassVersionRange())
                 }
                 catch(ex: UnsupportedClassVersionError) {
                     throw TransactionVerificationException.UnsupportedClassVersionError(txId, ex.message!!, ex)
