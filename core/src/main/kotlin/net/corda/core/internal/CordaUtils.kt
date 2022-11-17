@@ -159,8 +159,7 @@ fun AttachmentStorage.internalFindTrustedAttachmentForClass(className: String): 
 
 fun getSerliazerClassVersionRange(): IntRange {
     val isAtLeastJava11 = JavaVersion.isVersionAtLeast(JavaVersion.Java_11)
-    val isDjvmEnabled = false
-    val rangeEnd = if (isAtLeastJava11 && !isDjvmEnabled) {
+    val rangeEnd = if (isAtLeastJava11 && !isDjvmEnabled()) {
         JDK11_CLASS_FILE_FORMAT_MAJOR_VERSION
     } else {
         JDK8_CLASS_FILE_FORMAT_MAJOR_VERSION
@@ -171,8 +170,7 @@ fun getSerliazerClassVersionRange(): IntRange {
 
 fun getCordappClassVersionRange(): IntRange {
     val isAtLeastJava11 = JavaVersion.isVersionAtLeast(JavaVersion.Java_11)
-    val isDjvmEnabled = false
-    val rangeEnd = if (isAtLeastJava11 && !isDjvmEnabled) {
+    val rangeEnd = if (isAtLeastJava11 && !isDjvmEnabled()) {
         JDK11_CLASS_FILE_FORMAT_MAJOR_VERSION
     } else {
         JDK8_CLASS_FILE_FORMAT_MAJOR_VERSION
@@ -180,6 +178,8 @@ fun getCordappClassVersionRange(): IntRange {
 
     return JDK1_2_CLASS_FILE_FORMAT_MAJOR_VERSION..rangeEnd
 }
+
+private fun isDjvmEnabled() = false
 
 private fun hasFile(jarStream: JarInputStream, className: String): Boolean {
     while (true) {
